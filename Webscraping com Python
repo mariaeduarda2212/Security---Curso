@@ -1,0 +1,39 @@
+# Sempre que formos utilizar, vamos: 
+# 1 - Instalar as bibliotecas 
+# 2 - Importar as duas
+# 3 - Fazer uma requisição
+# 4 - Passar essa requisição para o BeautifulSoupe, para ai começar o processo de raspagem de dados
+
+#2
+import requests
+from bs4 import BeautifulSoup
+
+link = "https://www.google.com/search?q=cota%C3%A7%C3%A3o+dolar"
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
+
+#3
+requisicao = requests.get(link)
+print(requisicao)
+#print(requisicao.text)
+
+#4
+site = BeautifulSoup(requisicao.text, "html.parser")
+print(site.prettify()) 
+
+titulo = site.find("title")
+print(site.title)
+
+# Procuramos sempre pela tag HTML, coneguindo determinar qual tag especificamente você precisa, encontrando um padrão para elas.
+pesquisa = site.find_all("input")
+print(pesquisa[1])
+
+# Essa estrutura funciona para todo tipo de site, alterando apenas as pesquisas. O processo é sempre o mesmo, pois estamos navegando nas informações do HTML.abs
+
+# O BeautifulSoup funciona para raspagem de daados em sites estáticos, é uma ferramenta que você trás a informação do site para o seu código, sem fazer interações com o site.
+
+pesquisa2 = site.find("input", class_="gLFyf")
+print(pesquisa2)
+print(pesquisa2["value"])
+
+cotacao_dolar = site.find("span", class_="SwHCTb")
+print(cotação_dolar)
